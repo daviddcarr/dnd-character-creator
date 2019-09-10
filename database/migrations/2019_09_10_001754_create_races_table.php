@@ -15,6 +15,14 @@ class CreateRacesTable extends Migration
     {
         Schema::create('races', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->integer('strength');
+            $table->integer('dexterity');
+            $table->integer('constitution');
+            $table->integer('intelligence');
+            $table->integer('wisdom');
+            $table->integer('charisma');
+            $table->integer('bonus');
             $table->timestamps();
         });
     }

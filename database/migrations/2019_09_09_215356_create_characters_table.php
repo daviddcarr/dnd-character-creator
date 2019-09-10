@@ -17,8 +17,8 @@ class CreateCharactersTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('name');
-            $table->string('race');
-            $table->string('class');
+            $table->integer('race');
+            $table->integer('class');
             $table->integer('age');
             $table->string('alignment');
             $table->string('background');
