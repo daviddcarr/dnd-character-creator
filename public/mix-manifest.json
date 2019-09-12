@@ -1,4 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/forms.js": "/js/forms.js",
+    "/js/jquery.multi-select.js": "/js/jquery.multi-select.js",
+    "/js/jquery.quicksearch.js": "/js/jquery.quicksearch.js",
+    "/css/multi-select.css": "/css/multi-select.css"
 }

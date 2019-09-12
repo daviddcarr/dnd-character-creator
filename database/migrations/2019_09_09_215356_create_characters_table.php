@@ -14,14 +14,19 @@ class CreateCharactersTable extends Migration
     public function up()
     {
         Schema::create('characters', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('user_id');
             $table->string('name');
+            $table->integer('level');
             $table->integer('race');
-            $table->integer('class');
+            $table->integer('profession');
+            $table->integer('max_hp')->nullable();
+            $table->integer('current_hp')->nullable();
             $table->integer('age');
-            $table->string('alignment');
-            $table->string('background');
+            $table->integer('alignment');
+            $table->integer('background');
+            $table->boolean('has_starting_armor')->nullable();
+            $table->integer('armor');
             $table->integer('strength');
             $table->integer('dexterity');
             $table->integer('constitution');

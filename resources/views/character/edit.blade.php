@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="character-creator">
+    <div class="container">
         @guest
             <h1>You must register to create a character</h1>
         @else
-            <h1>Create @{{ name }}</h1>
+            <h1>Edit {{ $options['character']->name }}</h1>
             <form method="POST" action="/character">
                 {{ csrf_field() }}
                 <input type="number" class="d-none" id="user_id" name="user_id" value="{{ Auth::user()->id }}">
@@ -18,10 +18,10 @@
                         id="name" 
                         placeholder="name" 
                         name="name" 
-                        required
-                        v-model="name">
+                        value="{{ $options['character']->name }}"
+                        required>
                     </div>
-                    <div class="form-group col-12 col-md-2 col-lg-1">
+                    <div class="form-group col-6 col-md-2 col-lg-1">
                         <label for="title">Age</label>
                         <input 
                         type="number" 
@@ -29,10 +29,10 @@
                         id="age" 
                         placeholder="Age" 
                         name="age" 
-                        value="{{ old('age') }}"
+                        value="{{ $options['character']->age }}"
                         required>
                     </div>
-                    <div class="form-group col-12 col-md-2 col-lg-1">
+                    <div class="form-group col-6 col-md-2 col-lg-1">
                         <label for="level">Level</label>
                         <input 
                         type="number" 
@@ -40,7 +40,7 @@
                         id="level" 
                         placeholder="Level" 
                         name="level" 
-                        value="1"
+                        value="{{ $options['character']->level }}"
                         required>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <label for="race">Race</label>
                         <select multiple class="form-control {{ $errors->has('race') ? 'border-danger' : '' }}" id="race" name="race">
                           @foreach($options['races'] as $race)
-                              <option value="{{ $race->id }}">{{ $race->name }}</option>
+                              <option {{ $options['character']->race == $race->id ? 'selected' : '' }} value="{{ $race->id }}">{{ $race->name }}</option>
                           @endforeach
                         </select>
                     </div>
@@ -58,7 +58,7 @@
                         <label for="profession">Professions</label>
                         <select multiple class="form-control {{ $errors->has('profession') ? 'border-danger' : '' }}" id="profession" name="profession">
                           @foreach($options['professions'] as $profession)
-                              <option value="{{ $profession->id }}">{{ $profession->name }}</option>
+                              <option {{ $options['character']->profession == $profession->id ? 'selected' : '' }} value="{{ $profession->id }}">{{ $profession->name }}</option>
                           @endforeach
                         </select>
                       </div>
@@ -68,7 +68,7 @@
                         <label for="alignment">Alignment</label>
                         <select multiple class="form-control {{ $errors->has('alignment') ? 'border-danger' : '' }}" id="alignment" name="alignment">
                             @foreach($options['alignments'] as $alignment)
-                                <option value="{{ $alignment->id }}">{{ $alignment->name }}</option>
+                                <option {{ $options['character']->alignment == $alignment->id ? 'selected' : '' }} value="{{ $alignment->id }}">{{ $alignment->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -76,7 +76,7 @@
                         <label for="background">Background</label>
                         <select multiple class="form-control {{ $errors->has('background') ? 'border-danger' : '' }}" id="background" name="background">
                             @foreach($options['backgrounds'] as $background)
-                                <option value="{{ $background->id }}">{{ $background->name }}</option>
+                                <option {{ $options['character']->background == $background->id ? 'selected' : '' }} value="{{ $background->id }}">{{ $background->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,7 +91,7 @@
                         min="3" max="18"
                         placeholder="STR" 
                         name="strength" 
-                        value="{{ old('strength') }}"
+                        value="{{ $options['character']->strength }}"
                         required>
                     </div>
                     <div class="form-group col-6 col-md-4 col-lg-2">
@@ -103,7 +103,7 @@
                         min="3" max="18"
                         placeholder="DEX" 
                         name="dexterity" 
-                        value="{{ old('dexterity') }}"
+                        value="{{ $options['character']->dexterity }}"
                         required>
                     </div>
                     <div class="form-group col-6 col-md-4 col-lg-2">
@@ -115,7 +115,7 @@
                         min="3" max="18"
                         placeholder="CON" 
                         name="constitution" 
-                        value="{{ old('constitution') }}"
+                        value="{{ $options['character']->constitution }}"
                         required>
                     </div>
                     <div class="form-group col-6 col-md-4 col-lg-2">
@@ -127,7 +127,7 @@
                         min="3" max="18"
                         placeholder="INT" 
                         name="intelligence" 
-                        value="{{ old('intelligence') }}"
+                        value="{{ $options['character']->intelligence }}"
                         required>
                     </div>
                     <div class="form-group col-6 col-md-4 col-lg-2">
@@ -139,7 +139,7 @@
                         min="3" max="18"
                         placeholder="WIS" 
                         name="wisdom" 
-                        value="{{ old('wisdom') }}"
+                        value="{{ $options['character']->wisdom }}"
                         required>
                     </div>
                     <div class="form-group col-6 col-md-4 col-lg-2">
@@ -151,29 +151,11 @@
                         min="3" max="18"
                         placeholder="WIS" 
                         name="charisma" 
-                        value="{{ old('charisma') }}"
+                        value="{{ $options['character']->charisma }}"
                         required>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-12 col-md-4 col-lg-2">
-                        <label for="armor">Armor</label>
-                        <select multiple class="form-control {{ $errors->has('armor') ? 'border-danger' : '' }}" id="armor" name="armor">
-                            @foreach($options['armors'] as $armor)
-                                <option value="{{ $armor->id }}">{{ $armor->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-12 col-md-8">
-                        <label for="spells">Spells</label>
-                        <select multiple="multiple" class="ms-searchable form-control {{ $errors->has('spells') ? 'border-danger' : '' }}" id="spells" name="spells[]">
-                            @foreach($options['spells'] as $spell)
-                                <option value="{{ $spell->id }}">{{ $spell->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Create Character</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
                 @include('errors')
             </form>
         </div>

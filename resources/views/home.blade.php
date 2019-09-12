@@ -13,6 +13,15 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    @if ($characters)
+                    <ul>
+                        @foreach ($characters as $character)
+                        <li>
+                            <a href="/character/{{ $character->id }}">{{ $character->name }}</a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
                     <p class="text-center"><a href="{{ url('character/create') }}" class="btn btn-primary btn-round">Create Character</a></p>
 
                     <p class="text-center">You are logged in!</p>

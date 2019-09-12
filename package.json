@@ -22,5 +22,9 @@
         "sass-loader": "7.*",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "jquery.quicksearch": "^2.4.0",
+        "multiselect": "^0.9.12"
     }
 }
