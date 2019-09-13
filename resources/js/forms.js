@@ -1,5 +1,5 @@
 $(".ms-searchable").multiSelect({
-  selectableHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Try \"Cure Wounds\"'>",
+  selectableHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Search'>",
   selectionHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Search'>",
   afterInit: function(ms){
     var that = this,

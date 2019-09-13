@@ -7,7 +7,10 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+Vue.use(require('vue-resource'));
+import VueRouter from 'vue-router';
+import Multiselect from 'vue-multiselect';
+// import VueResource from 'vue-resource';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -29,6 +32,32 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 const app = new Vue({
     el: '#character-creator',
     data: {
-      name: 'Character'
+      name: 'Character',
+      race: 1,
+      profession: {
+        id: 1,
+        name: 'Artificer',
+        description: 'A supreme inventor and a master of unlocking magic in everyday objects.'
+      },
+      hasSpells: ["3","5","6","9","10","12","13"],
+      spells: [],
+    },
+    methods: {
+      professionChanged() {
+        if (jQuery.inArray(this.profession.id, this.hasSpells) !== -1) {
+          var url = "/get_spells/" + this.profession.id;
+          this.$http.get(url).then(function(response) {
+            this.spells = response.data;  
+          });
+        } else {
+          this.spells = [];
+        }
+        var url = "/get_profession/" + this.profession.id;
+        this.$http.get(url).then(function(response) {
+          var responseData = response.data;
+          this.profession.name = responseData.name;  
+          this.profession.description = responseData.description;  
+        });
+      }
     }
 });

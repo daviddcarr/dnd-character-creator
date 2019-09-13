@@ -45,40 +45,72 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6 col-lg-3">
                         <label for="race">Race</label>
-                        <select multiple class="form-control {{ $errors->has('race') ? 'border-danger' : '' }}" id="race" name="race">
+                        <select class="form-control {{ $errors->has('race') ? 'border-danger' : '' }}" 
+                            id="race" 
+                            name="race" 
+                            v-model="race">
                           @foreach($options['races'] as $race)
                               <option value="{{ $race->id }}">{{ $race->name }}</option>
                           @endforeach
                         </select>
+                        <div class="card mt-2">
+                            <img src="/img/placeholder.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-title">Placeholder</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sit amet malesuada nisi odio vel arcu.</p>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6 col-lg-3">
                         <label for="profession">Professions</label>
-                        <select multiple class="form-control {{ $errors->has('profession') ? 'border-danger' : '' }}" id="profession" name="profession">
+                        <select class="form-control {{ $errors->has('profession') ? 'border-danger' : '' }}" 
+                            id="profession" 
+                            name="profession"
+                            v-model="profession.id"
+                            @change="professionChanged()">
                           @foreach($options['professions'] as $profession)
                               <option value="{{ $profession->id }}">{{ $profession->name }}</option>
                           @endforeach
                         </select>
+                        <div class="card mt-2">
+                            <img :src="'/img/professions/' + profession.id + '.png'" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-title">@{{ profession.name }}</h4>
+                                <p>@{{ profession.description }}</p>
+                            </div>
+                        </div>
                       </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-12 col-md-6">
+                      <div class="form-group col-12 col-md-6 col-lg-3">
                         <label for="alignment">Alignment</label>
-                        <select multiple class="form-control {{ $errors->has('alignment') ? 'border-danger' : '' }}" id="alignment" name="alignment">
+                        <select class="form-control {{ $errors->has('alignment') ? 'border-danger' : '' }}" id="alignment" name="alignment">
                             @foreach($options['alignments'] as $alignment)
                                 <option value="{{ $alignment->id }}">{{ $alignment->name }}</option>
                             @endforeach
                         </select>
+                        <div class="card mt-2">
+                            <img src="/img/placeholder.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-title">Placeholder</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sit amet malesuada nisi odio vel arcu.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6 col-lg-3">
                         <label for="background">Background</label>
-                        <select multiple class="form-control {{ $errors->has('background') ? 'border-danger' : '' }}" id="background" name="background">
+                        <select class="form-control {{ $errors->has('background') ? 'border-danger' : '' }}" id="background" name="background">
                             @foreach($options['backgrounds'] as $background)
                                 <option value="{{ $background->id }}">{{ $background->name }}</option>
                             @endforeach
                         </select>
+                        <div class="card mt-2">
+                            <img src="/img/placeholder.png" class="card-img-top">
+                            <div class="card-body">
+                                <h4 class="card-title">Placeholder</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sit amet malesuada nisi odio vel arcu.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -158,21 +190,33 @@
                 <div class="form-row">
                     <div class="form-group col-12 col-md-4 col-lg-2">
                         <label for="armor">Armor</label>
-                        <select multiple class="form-control {{ $errors->has('armor') ? 'border-danger' : '' }}" id="armor" name="armor">
+                        <select class="form-control {{ $errors->has('armor') ? 'border-danger' : '' }}" id="armor" name="armor">
                             @foreach($options['armors'] as $armor)
                                 <option value="{{ $armor->id }}">{{ $armor->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-12 col-md-8">
-                        <label for="spells">Spells</label>
-                        <select multiple="multiple" class="ms-searchable form-control {{ $errors->has('spells') ? 'border-danger' : '' }}" id="spells" name="spells[]">
-                            @foreach($options['spells'] as $spell)
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12 col-md-6">
+                        <label for="spells">Cantrips</label>
+                        <select multiple="multiple" class="ms-searchable form-control {{ $errors->has('spells') ? 'border-danger' : '' }}" id="spells" name="cantrips[]">
+                            {{-- <option v-for="spell in spells" :value="spell.id">@{{spell.name}}</option> --}}
+                            @foreach($options['cantrips'] as $spell)
+                                <option value="{{ $spell->id }}">{{ $spell->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="spells">First Level Spells</label>
+                        <select multiple="multiple" class="ms-searchable form-control {{ $errors->has('spells') ? 'border-danger' : '' }}" id="spells" name="spells_first[]">
+                            @foreach($options['spells_first'] as $spell)
                                 <option value="{{ $spell->id }}">{{ $spell->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+                
                 <button type="submit" class="btn btn-primary">Create Character</button>
                 @include('errors')
             </form>

@@ -18,6 +18,7 @@ class CreateProfessionsTable extends Migration
             $table->string('name');
             $table->integer('hit_dice');
             $table->string('spellcasting_ability')->nullable();
+            $table->string('description');
             $table->timestamps();
         });
     }

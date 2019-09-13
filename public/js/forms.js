@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -94,7 +94,7 @@
 /***/ (function(module, exports) {
 
 $(".ms-searchable").multiSelect({
-  selectableHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Try \"Cure Wounds\"'>",
+  selectableHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Search'>",
   selectionHeader: "<input type='text' class='search-input form-control w-100 mb-2' autocomplete='off' placeholder='Search'>",
   afterInit: function afterInit(ms) {
     var that = this,
@@ -128,7 +128,7 @@ $(".multiselect").multiSelect();
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!*************************************!*\
   !*** multi ./resources/js/forms.js ***!
   \*************************************/

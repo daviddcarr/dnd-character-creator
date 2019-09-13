@@ -1,5 +1,6 @@
 <?php
 
+use App\Profession;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,5 +20,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 Route::resource('character', 'CharacterController');
 
+// JSON Requests
+Route::get('/get_spells/{profession}', function(Profession $profession) {
+    return App\Spell::where(strtolower($profession->name), 1)->get();
+});
+Route::get('/get_profession/{profession}', function(Profession $profession) {
+    return Profession::where('id', $profession->id)->first();
+});

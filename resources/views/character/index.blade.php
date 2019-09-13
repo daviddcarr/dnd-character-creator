@@ -182,34 +182,82 @@
                             </table>
                         </div>
                         <div class="col-12 col-md-6">
-                            <?php $spells = $character->spell()->get(); ?>
-                            @foreach ($spells as $spell)
-                                <div class="card p-2 mb-1">
-                                    <h5>{{ $spell->name }}</h5>
-                                    <hr>
-                                    <table class="table">
-                                        <tr>
-                                            <td>School:</td>
-                                            <td>{{ $spell->school }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Casting Time:</td>
-                                            <td>{{ $spell->casting_time }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Range:</td>
-                                            <td>{{ $spell->range }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Duration:</td>
-                                            <td>{{ $spell->duration }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Concentration:</td>
-                                            <td>{{ $spell->concentration ? 'Yes' : 'No' }}</td>
-                                        </tr>
-                                    </table>
-                                    <p>{{ $spell->description }}</p>
+                            <?php $cantrips = $character->spell()->where('level', '=', 0)->get(); ?>
+                            <h3>Cantrips</h3>
+                            @foreach ($cantrips as $spell)
+                                <div class="card mb-1">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-6">{{ $spell->name }}</div>
+                                            <div class="col-6">
+                                                <button class="btn btn-primary float-right" data-toggle="collapse" href="#spell-body-{{ $spell->id }}" role="button">Show</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body collapse" id="spell-body-{{ $spell->id }}">
+                                        <table class="table">
+                                            <tr>
+                                                <td>School:</td>
+                                                <td>{{ $spell->school }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Casting Time:</td>
+                                                <td>{{ $spell->casting_time }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Range:</td>
+                                                <td>{{ $spell->range }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Duration:</td>
+                                                <td>{{ $spell->duration }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Concentration:</td>
+                                                <td>{{ $spell->concentration ? 'Yes' : 'No' }}</td>
+                                            </tr>
+                                        </table>
+                                        <p>{{ $spell->description }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                            <?php $firstLevel = $character->spell()->where('level', '=', 1)->get(); ?>
+                            <h3 class="mt-3">First Level</h3>
+                            @foreach ($firstLevel as $spell)
+                                <div class="card mb-1">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-6">{{ $spell->name }}</div>
+                                            <div class="col-6">
+                                                <button class="btn btn-primary float-right" data-toggle="collapse" href="#spell-body-{{ $spell->id }}" role="button">Show</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body collapse" id="spell-body-{{ $spell->id }}">
+                                        <table class="table">
+                                            <tr>
+                                                <td>School:</td>
+                                                <td>{{ $spell->school }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Casting Time:</td>
+                                                <td>{{ $spell->casting_time }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Range:</td>
+                                                <td>{{ $spell->range }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Duration:</td>
+                                                <td>{{ $spell->duration }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Concentration:</td>
+                                                <td>{{ $spell->concentration ? 'Yes' : 'No' }}</td>
+                                            </tr>
+                                        </table>
+                                        <p>{{ $spell->description }}</p>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

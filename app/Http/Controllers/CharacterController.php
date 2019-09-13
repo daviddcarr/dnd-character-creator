@@ -24,7 +24,8 @@ class CharacterController extends Controller
             'alignments' => Alignment::all(),
             'backgrounds' => Background::all(),
             'armors' => StartingArmor::all(),
-            'spells' => Spell::all()
+            'cantrips' => Spell::where('level', '=', 0)->get(),
+            'spells_first' => Spell::where('level', '=', 1)->get(),
         ];
         return view('character.create', compact('options'));
     }
@@ -77,8 +78,19 @@ class CharacterController extends Controller
         $character->updated_at = Carbon::now();
         $character->save();
         
-        if (!empty($input['spells'])) {
-            $character->spell()->sync($input['spells']);
+        $spells = [];
+        if (!empty($input['cantrips'])) {
+            foreach($input['cantrips'] as $spell_id) {
+                array_push($spells, $spell_id);
+            }
+        }
+        if (!empty($input['spells_first'])) {
+            foreach($input['spells_first'] as $spell_id) {
+                array_push($spells, $spell_id);
+            }
+        }
+        if (!empty($spells)) {
+            $character->spell()->sync($spells);
         }
 
         return redirect('/home');

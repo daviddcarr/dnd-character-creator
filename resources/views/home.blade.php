@@ -14,13 +14,24 @@
                         </div>
                     @endif
                     @if ($characters)
-                    <ul>
+                    <div class="row justify-center mb-3">
                         @foreach ($characters as $character)
-                        <li>
-                            <a href="/character/{{ $character->id }}">{{ $character->name }}</a>
-                        </li>
+                            <div class="col-12 col-md-4 col-lg-3">
+                                <div class="card">
+                                    <?php 
+                                    $professionName = App\Profession::find($character->profession)->name;
+                                    $raceName = App\Race::find($character->race)->name;
+                                    ?>
+                                    <img class="card-img-top" src="/img/professions/{{ $character->profession }}.png" alt="{{ $professionName }} Card Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center mb-0">{{ $character->name }}</h5>
+                                        <p class="tiny text-center mb-0">Level {{ $character->level }} {{ $raceName }} {{ $professionName }}</p>
+                                        <a href="/character/{{ $character->id }}" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
-                    </ul>
+                    </div>
                     @endif
                     <p class="text-center"><a href="{{ url('character/create') }}" class="btn btn-primary btn-round">Create Character</a></p>
 

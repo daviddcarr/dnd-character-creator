@@ -25,6 +25,9 @@
     },
     "dependencies": {
         "jquery.quicksearch": "^2.4.0",
-        "multiselect": "^0.9.12"
+        "multiselect": "^0.9.12",
+        "vue-multiselect": "^2.1.6",
+        "vue-resource": "^1.5.1",
+        "vue-router": "^3.1.3"
     }
 }

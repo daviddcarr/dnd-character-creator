@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// General
+@import 'helpers';
+@import 'buttons';
+
+// Typography
+@import 'typography';
