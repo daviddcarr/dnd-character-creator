@@ -34,6 +34,11 @@ class CharacterController extends Controller
             'user_id' => 'required',
             'name' => 'required|min:2|max:255',
             'age' => 'nullable',
+            'height' => 'nullable',
+            'weight' => 'nullable',
+            'eyes' => 'nullable',
+            'skin' => 'nullable',
+            'hair' => 'nullable',
             'race' => 'required',
             'profession' => 'required',
             'alignment' => 'required',
@@ -43,7 +48,14 @@ class CharacterController extends Controller
             'constitution' => 'required',
             'intelligence' => 'required',
             'wisdom' => 'required',
-            'charisma' => 'required'
+            'charisma' => 'required',
+            'personality' => 'nullable',
+            'ideals' => 'nullable',
+            'bonds' => 'nullable',
+            'flaws' => 'nullable',
+            'backstory' => 'nullable',
+            'appearance' => 'nullable',
+            'misc' => 'nullable'
         ]);
         $input = $request->all();
         $race = Race::find(request('race'));
@@ -53,12 +65,24 @@ class CharacterController extends Controller
         $character->user_id = Auth::user()->id;
         // Character Base Info
         $character->name = $input['name'];
-        $character->level = $input['level'];
+        $character->level = 1;
         $character->race = $race->id;
         $character->profession = $profession->id;
         $character->age = $input['age'];
+        $character->height = $input['height'];
+        $character->weight = $input['weight'];
+        $character->eyes = $input['eyes'];
+        $character->skin = $input['skin'];
+        $character->hair = $input['hair'];
         $character->alignment = $input['alignment'];
         $character->background = $input['background'];
+        $character->personality = $input['personality'];
+        $character->ideals = $input['ideals'];
+        $character->bonds = $input['bonds'];
+        $character->flaws = $input['flaws'];
+        $character->backstory = $input['backstory'];
+        $character->appearance = $input['appearance'];
+        $character->misc = $input['misc'];
         
         // Calculate character's HP
         $hp = $profession->hit_dice + modifierAsInt(request('constitution'));
@@ -78,19 +102,31 @@ class CharacterController extends Controller
         $character->updated_at = Carbon::now();
         $character->save();
         
-        $spells = [];
-        if (!empty($input['cantrips'])) {
-            foreach($input['cantrips'] as $spell_id) {
-                array_push($spells, $spell_id);
-            }
+        if (!empty($input['spells'])) {
+                $character->spell()->sync($input['spells']);
         }
-        if (!empty($input['spells_first'])) {
-            foreach($input['spells_first'] as $spell_id) {
-                array_push($spells, $spell_id);
-            }
+        if (!empty($input['equipment'])) {
+            $character->equipment()->sync($input['equipment']);
         }
-        if (!empty($spells)) {
-            $character->spell()->sync($spells);
+        if (!empty($input['race'])) {
+            $languages = [1];
+            if (!is_null($race->language_1)) {
+                array_push($languages, $race->language_1);
+            }
+            if (!is_null($race->language_2)) {
+                array_push($languages, $race->language_2);
+            }
+            if (!is_null($race->language_3)) {
+                array_push($languages, $race->language_3);
+            }
+            if (!empty($input['languages'])) {
+                foreach($input['languages'] as $languageId) {
+                    if (!in_array($languageId, $languages)) {
+                        array_push($languages, $languageId);
+                    }
+                }
+            }
+            $character->language()->sync($languages);
         }
 
         return redirect('/home');

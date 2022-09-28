@@ -30,6 +30,7 @@ class CreateSpellsTable extends Migration
             $table->boolean('bard');
             $table->boolean('cleric');
             $table->boolean('druid');
+            $table->boolean('fighter');
             $table->boolean('paladin');
             $table->boolean('ranger');
             $table->boolean('sorcerer');

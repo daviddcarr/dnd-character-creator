@@ -43,6 +43,12 @@
                             <p class="text-center">Initiative: {{ modifier($character->dexterity) }}
                         </div>
                     </div>
+                    <div class="row justify-content-center">
+                        <p>Languages:
+                        @foreach($character->language()->get() as $language)
+                            {{ $language->name }}, 
+                        @endforeach
+                    </div>
                     <hr>
                     @if (!is_null($profession->spellcasting_ability))
                         <div class="row justify-content-center">
@@ -182,6 +188,44 @@
                             </table>
                         </div>
                         <div class="col-12 col-md-6">
+                            <h3>Equipment</h3>
+                            @foreach ($character->equipment()->get() as $equipment)
+                                <div class="card mb-1">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-6">{{ $equipment->name }}</div>
+                                            <div class="col-6">
+                                                <button class="btn btn-primary float-right" data-toggle="collapse" href="#equipment-body-{{ $equipment->id }}" role="button">Show</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body collapse" id="equipment-body-{{ $equipment->id }}">
+                                        @if ($equipment->type != 'kit' && $equipment->type != 'magic'&& $equipment->type != 'bag')
+                                        <table class="table">
+                                            @if ($equipment->style)
+                                                <tr>
+                                                    <td>Type:</td>
+                                                    <td>{{$equipment->type}} {{$equipment->style}}</td>
+                                                </tr>
+                                            @endif
+                                            @if ($equipment->damage)
+                                                <tr>
+                                                    <td>Damage:</td>
+                                                    <td>{{ $equipment->damage }}</td>
+                                                </tr>
+                                            @endif
+                                            @if ($equipment->ammunition_count)
+                                                <tr>
+                                                    <td>Ammunition:</td>
+                                                    <td>{{ $equipment->ammunition_count }} {{ $equipment->ammunition }}{{ $equipment->ammunition_count > 0 ? "s" : "" }}</td>
+                                                </tr>
+                                            @endif                                
+                                        </table>
+                                    @endif
+                                        <p>{{ $equipment->description }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
                             <?php $cantrips = $character->spell()->where('level', '=', 0)->get(); ?>
                             <h3>Cantrips</h3>
                             @foreach ($cantrips as $spell)
@@ -260,6 +304,39 @@
                                     </div>
                                 </div>
                             @endforeach
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h3>Personality</h3>
+                            <p>{{ $character->personality }}</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h3>Ideals</h3>
+                            <p>{{ $character->ideals }}</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h3>bonds</h3>
+                            <p>{{ $character->bonds }}</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h3>Flaws</h3>
+                            <p>{{ $character->flaws }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h3>Backstory</h3>
+                            <p>{{ $character->backstory }}</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h3>Appearance</h3>
+                            <p>{{ $character->appearance }}</p>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h3>Misc</h3>
+                            <p>{{ $character->misc }}</p>
                         </div>
                     </div>
                 </div>

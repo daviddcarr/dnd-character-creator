@@ -9,40 +9,67 @@ require('./bootstrap');
 window.Vue = require('vue');
 Vue.use(require('vue-resource'));
 import VueRouter from 'vue-router';
-import Multiselect from 'vue-multiselect';
-// import VueResource from 'vue-resource';
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+Vue Computation for Character Creation
+**/
 const app = new Vue({
     el: '#character-creator',
     data: {
       name: 'Character',
-      race: 1,
+      race: {
+        id: 1,
+        name: 'Aarakocra',
+        description: 'Sequestered in high mountains atop tall trees, the aarakocra, sometimes called birdfolk, evoke fear and wonder.',
+      },
       profession: {
         id: 1,
         name: 'Artificer',
-        description: 'A supreme inventor and a master of unlocking magic in everyday objects.'
+        description: 'A supreme inventor and a master of unlocking magic in everyday objects.',
+        armors: [],
+        equipment: [],
+        equipmentOptionCount: 1,
       },
-      hasSpells: ["3","5","6","9","10","12","13"],
+      equipmentList: [],
+      alignment: {
+        id: 1,
+        name: 'Lawful Good',
+        description: '<strong>The Crusader</strong> - You do good and follow the law to the T.</p><p>Obi Wan, Ned Stark, Captain America, Superman'
+      },
+      background: {
+        id: 1,
+        name: 'Acolyte',
+        description: '',
+      },
+      hasSpells: ["3","5","6","7","9","10","12","13","14"],
       spells: [],
+      spellText: '',
+      languages: 0,
+      languageList: [],
+      languageLimitGroup: "language",
+    },
+    created:  function() {
+      var url = "/get_equipment";
+      this.$http.get(url).then(function(response) {
+        this.equipmentList = response.data;
+      });      
+      var url = "/get_languages";
+      this.$http.get(url).then(function(response) {
+        this.languageList = response.data;
+      });      
     },
     methods: {
+      raceChanged() {
+        var url = "/get_race/" + this.race.id;
+        this.$http.get(url).then(function(response) {
+          var responseData = response.data;
+          this.race.name = responseData.name;  
+          this.race.description = responseData.description;
+          this.languages += responseData.languages;
+        });
+      },
       professionChanged() {
         if (jQuery.inArray(this.profession.id, this.hasSpells) !== -1) {
           var url = "/get_spells/" + this.profession.id;
@@ -58,6 +85,58 @@ const app = new Vue({
           this.profession.name = responseData.name;  
           this.profession.description = responseData.description;  
         });
+        var url = "/get_profession_armor/" + this.profession.id;
+        this.$http.get(url).then(function(response) {
+          this.profession.armors = response.data;  
+        });
+        var url = "/get_profession_equipment/" + this.profession.id;
+        this.$http.get(url).then(function(response) {
+          this.profession.equipmentOptionCount = response.data[0];
+          this.profession.equipment = response.data[1];  
+        });
+      },
+      alignmentChanged() {
+        var url = "/get_alignment/" + this.alignment.id;
+        this.$http.get(url).then(function(response) {
+          var responseData = response.data;
+          this.alignment.name = responseData.name;  
+          this.alignment.description = responseData.description;  
+        });
+      },
+      backgroundChanged() {
+        var url = "/get_background/" + this.background.id;
+        this.$http.get(url).then(function(response) {
+          var responseData = response.data;
+          this.background.name = responseData.name;  
+          this.background.description = responseData.description;  
+          this.languages += responseData.languages;
+        });
+      },
+      spellDescription(spell) {
+        this.spellText = spell.description;
+      },
+      limit(limitGroup, limit) {
+      	$('.limit-group-' + limitGroup + ':checked').each(function() {
+          console.log($(this).data('limit') + " >? " + $('.limit-group-' + limitGroup + ':checked').length);
+        	if ($(this).data('limit') < $('.limit-group-' + limitGroup + ':checked').length) {
+          	this.checked = false;
+          }
+        });
       }
     }
+});
+
+console.log('test');
+$('.limited').click(function(){
+  console.log('test 2');
+});
+$('.limited').change(function(e) {
+  console.log('asds');
+  var limitGroup = $(this).data('limit-group');
+  console.log(limitGroup);
+	$('.limit-group-' + limitGroup + '/:checked').each(function() {
+  	if ($(this).data('limit') > $('.limit-group-' + limitGroup + '/:checked').length) {
+    	this.checked = false;
+    }
+  });
 });

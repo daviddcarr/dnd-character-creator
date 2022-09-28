@@ -22,7 +22,12 @@ class CreateCharactersTable extends Migration
             $table->integer('profession');
             $table->integer('max_hp')->nullable();
             $table->integer('current_hp')->nullable();
-            $table->integer('age');
+            $table->integer('age')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('eyes')->nullable();
+            $table->string('skin')->nullable();
+            $table->string('hair')->nullable();
             $table->integer('alignment');
             $table->integer('background');
             $table->boolean('has_starting_armor')->nullable();
@@ -33,6 +38,13 @@ class CreateCharactersTable extends Migration
             $table->integer('intelligence');
             $table->integer('wisdom');
             $table->integer('charisma');
+            $table->string('personality', 2048)->nullable();
+            $table->string('ideals', 2048)->nullable();
+            $table->string('bonds', 2048)->nullable();
+            $table->string('flaws', 2048)->nullable();
+            $table->string('appearance', 2048)->nullable();
+            $table->string('backstory', 2048)->nullable();
+            $table->string('misc', 2048)->nullable();
             $table->timestamps();
         });
     }

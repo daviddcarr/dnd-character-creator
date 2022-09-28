@@ -16,6 +16,7 @@ class CreateRacesTable extends Migration
         Schema::create('races', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('description', 2056)->nullable();
             $table->integer('strength');
             $table->integer('dexterity');
             $table->integer('constitution');
@@ -23,7 +24,11 @@ class CreateRacesTable extends Migration
             $table->integer('wisdom');
             $table->integer('charisma');
             $table->integer('bonus');
-            $table->timestamps();
+            $table->integer('speed');
+            $table->integer('languages');
+            $table->integer('language_1')->nullable();
+            $table->integer('language_2')->nullable();
+            $table->integer('language_3')->nullable();
         });
     }
 
